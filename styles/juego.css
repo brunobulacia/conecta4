@@ -1,0 +1,48 @@
+body {
+  background-color: rgb(148 163 184);
+  height: 100%;
+  /* overflow: hidden; Esto oculta el scrollbar en la página */
+}
+
+#game-container {
+  width: 600px;
+  height: 580px;
+  border-radius: 20px; /* Ajusta el radio según tus necesidades */
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Opcional: agrega una sombra */
+}
+
+.jugador,
+.pc {
+  width: 200px;
+  height: 200px;
+  background-color: #c23616; /* Cambia el color según tu preferencia */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.pc {
+  background-color: #1e3799;
+}
+
+.dif {
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  width: 340px;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 10px;
+  font-family: Source Code Pro;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.inicio {
+  border-radius: 25px;
+  display: inline;
+  background: #20242f;
+}
