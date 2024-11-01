@@ -20,8 +20,9 @@ def computer_move():
 def get_discs():
     data = request.get_json()
     matriz = data.get('matrix')
-    game.set_tablero(matriz)
-    print(game.get_tablero())
+    # game.set_tablero(matriz)
+    # print(game.get_tablero())
+    print(matriz)
     return res({'matrix': matriz}), 200
 
 @app.route('/submitForm', methods=['POST'])
@@ -29,8 +30,8 @@ def submit_form():
     data = request.get_json()
     difficulty = data.get('difficulty')
     starter = data.get('starter')
-    game.set_dificultad(difficulty)
-    print(f'Difficulty: {game.get_dificultad()}, Starter: {starter}')
+    # game.set_dificultad(difficulty)
+    print(f'Difficulty: {difficulty}, Starter: {starter}')
     return res({'success': True}), 200
 
 if __name__ == '__main__':
