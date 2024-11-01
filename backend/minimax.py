@@ -2,7 +2,7 @@ class Conecta4:
     def __init__(self):
         self.tablero = [[None for _ in range(7)] for _ in range(6)]
         self.jugada = 0
-        self.dificultad = ''
+        self.dificultad = 'easy'
 
     def get_tablero(self):
         return self.tablero
