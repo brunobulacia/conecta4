@@ -27,7 +27,7 @@ class TreeNode:
 class Conecta4:
     def __init__(self):
         self.raiz = TreeNode([[None for _ in range(7)] for _ in range(6)], None, 'azul')
-        self.dificultad = 'easy'
+        self.dificultad = 'baby girl'
         self.profundidad_maxima = (
             3 if self.dificultad == 'facil' else
             4 if self.dificultad == 'medio' else
