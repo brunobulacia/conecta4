@@ -26,11 +26,22 @@ export async function getDiscs(matrix) {
   return data.matrix;
 }
 
+//ENDPOINT PARA VER QUIEN EMPIEZA
+export async function whoStarts() {
+  const response = await fetch(`${API_URL}starter`);
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  const data = await response.json();
+  return data.starter;
+}
+
 //FUNCION PARA INICIALIZAR LOS ENDPOINTS
 export async function initialize() {
   try {
     await pcMove();
     await getDiscs();
+    await whoStarts();
   } catch (error) {
     console.error("Error initializing:", error);
   }

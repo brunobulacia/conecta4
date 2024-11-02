@@ -1,16 +1,14 @@
 body {
-  background-color: rgb(203 213 225);
-  overflow: hidden;
+  background-color: rgb(203, 213, 225);
 }
 #container {
   background-color: rgb(167, 189, 221);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.684);
+  box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.5);
 }
 .btn-option {
   display: inline-block;
-  width: 100%;
-  padding: 1rem;
-  font-size: 1.25rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
   text-align: center;
   cursor: pointer;
   border-radius: 9999px;

@@ -1,5 +1,10 @@
 //TRAYENDO LOS ENDPOINTS DE LA API
-import { initialize, getDiscs, pcMove } from "../routes/api.routes.js";
+import {
+  initialize,
+  getDiscs,
+  pcMove,
+  whoStarts,
+} from "../routes/api.routes.js";
 window.addEventListener("load", initialize);
 
 const config = {
@@ -16,21 +21,37 @@ const config = {
 
 let game = new Phaser.Game(config);
 let board;
-let currentPlayer = "rojo";
+let currentPlayer = "";
 let discs = [];
 const rows = 6;
 const cols = 7;
 let floatingDisc;
 let floatingCol = Math.floor(Math.random() * cols);
 
-function preload() {
-  //Sirve para cargar imagenes o recursos
-}
+function preload() {}
 
-function create() {
+/* function create() {
   this.cameras.main.setBackgroundColor(0x20242f);
   createBoard(this);
   createFloatingDisc(this);
+  this.input.keyboard.on("keydown-LEFT", moveDiscLeft, this);
+  this.input.keyboard.on("keydown-RIGHT", moveDiscRight, this);
+  this.input.keyboard.on("keydown-SPACE", dropFloatingDisc, this);
+} */
+async function create() {
+  this.cameras.main.setBackgroundColor(0x20242f);
+  createBoard(this);
+
+  if (currentPlayer === "") {
+    let starter = await whoStarts();
+    currentPlayer = starter === "pc" ? "azul" : "rojo";
+    console.log(currentPlayer);
+  }
+  createFloatingDisc(this);
+
+  if (currentPlayer == "azul") {
+    computerMove(this);
+  }
   this.input.keyboard.on("keydown-LEFT", moveDiscLeft, this);
   this.input.keyboard.on("keydown-RIGHT", moveDiscRight, this);
   this.input.keyboard.on("keydown-SPACE", dropFloatingDisc, this);
@@ -84,10 +105,11 @@ function moveDiscRight() {
     const offsetX = (this.sys.canvas.width - cols * 77) / 2;
     floatingDisc.x = floatingCol * 77 + 37.5 + offsetX;
   }
+
   console.log(floatingCol);
 }
 
-function dropFloatingDisc() {
+/* function dropFloatingDisc() {
   if (discs[0][floatingCol] !== null) {
     this.input.keyboard.enabled = true;
     return;
@@ -104,7 +126,9 @@ function dropFloatingDisc() {
         duration: 500,
         ease: "Bounce.easeOut",
         onComplete: () => {
-          discs[row][floatingCol] = currentPlayer;
+          currentPlayer === "rojo"
+            ? (discs[row][floatingCol] = -1)
+            : (discs[row][floatingCol] = 1);
           sendDiscs();
           if (checkWin(row, floatingCol)) {
             this.add.text(150, 30, `Jugador ${currentPlayer} gana!`, {
@@ -126,12 +150,59 @@ function dropFloatingDisc() {
       break;
     }
   }
+} */
+
+function dropFloatingDisc() {
+  if (discs[0][floatingCol] !== null) {
+    this.input.keyboard.enabled = true;
+    return;
+  }
+  this.input.keyboard.enabled = false;
+  const offsetX = (this.sys.canvas.width - cols * 77) / 2;
+  const offsetY = (this.sys.canvas.height - rows * 77) / 2;
+
+  for (let row = rows - 1; row >= 0; row--) {
+    if (discs[row][floatingCol] === null) {
+      let endY = row * 77 + 37.5 + offsetY;
+      this.tweens.add({
+        targets: floatingDisc,
+        y: endY,
+        duration: 500,
+        ease: "Bounce.easeOut",
+        onComplete: () => {
+          currentPlayer === "rojo"
+            ? (discs[row][floatingCol] = -1)
+            : (discs[row][floatingCol] = 1);
+          sendDiscs();
+          if (checkWin(row, floatingCol)) {
+            this.add.text(150, 30, `Jugador ${currentPlayer} gana!`, {
+              fontSize: "40px",
+              fill: "#fff",
+              fontFamily: "Roboto",
+            });
+          } else {
+            currentPlayer = currentPlayer === "rojo" ? "azul" : "rojo";
+            createFloatingDisc(this);
+            if (currentPlayer === "azul") {
+              computerMove(this);
+            } else {
+              // Activa los controles del teclado para el usuario
+              this.input.keyboard.enabled = true;
+            }
+          }
+        },
+      });
+      break;
+    }
+  }
 }
 
 async function sendDiscs() {
   try {
     let matrix = await getDiscs(discs);
+    let starter = await whoStarts();
     console.log(matrix);
+    console.log(starter);
   } catch (error) {
     console.error("Error in getDiscs:", error);
   }
